@@ -1,5 +1,59 @@
-<!--The content below is only a placeholder and can be replaced.-->
-The data from the csv file is:
-<pre>
-{{ title }}
-</pre>
+<h1>Sample App</h1>
+
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      CSV data
+    </ng-template>
+    <p>
+      The CSV data is directly taken from Github. You can edit or exchange the CSV file
+      <a href="https://github.com/kiwikern/ng-csv-demo/blob/master/docs/assets/symptom-data.csv">
+        here on Github</a>
+      to update the data in your app.
+    </p>
+    <p>
+      Raw data:
+    </p>
+    <pre>{{ title }}</pre>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Material theme samples
+    </ng-template>
+
+    <mat-card>
+      <mat-card-title>Select a symptom</mat-card-title>
+      This is just an example for the UI components.
+      <form>
+        <mat-form-field>
+          <input type="text" placeholder="Pick a symptom" #trigger
+                 matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete"
+                            autoActiveFirstOption
+                            (optionSelected)="optionSelected($event)">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint>Type to search for symptoms.</mat-hint>
+        </mat-form-field>
+      </form>
+    </mat-card>
+
+    <mat-card *ngIf="selectedOptions && selectedOptions.length > 0">
+      <mat-card-title>Selected symptoms</mat-card-title>
+      <mat-chip-list>
+        <mat-chip *ngFor="let chip of selectedOptions; let i = index">
+          {{chip}}
+          <mat-icon matChipRemove (click)="removeChip(i)">cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+
+      <mat-card-actions align="right">
+        <button mat-raised-button (click)="reset()">Reset</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+
+</mat-tab-group>
